@@ -1,0 +1,108 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1e-3;
+
+iR 141;       //inner radius
+oR 197;       //outter radius
+z0 -5;      
+z1 64; 
+
+n 8;         //number of sub motor
+
+p1x #calc "$iR * std::cos(constant::mathematical::pi * 2.0/$n)";
+p1y #calc "$iR * std::sin(constant::mathematical::pi * 2.0/$n)";
+
+p2x #calc "$oR * std::cos(constant::mathematical::pi * 2.0/$n)";
+p2y #calc "$oR * std::sin(constant::mathematical::pi * 2.0/$n)";
+
+
+ix   #calc "$iR * std::cos(constant::mathematical::pi/$n)";
+iy   #calc "$iR * std::sin(constant::mathematical::pi/$n)";
+
+ox   #calc "$oR * std::cos(constant::mathematical::pi/$n)";
+oy   #calc "$oR * std::sin(constant::mathematical::pi/$n)";
+
+vertices        
+(
+    ($iR 0 $z0)
+    ($oR 0 $z0)
+	($p2x $p2y $z0)
+	($p1x $p1y $z0)
+    ($iR 0 $z1)
+    ($oR 0 $z1)
+	($p2x $p2y $z1)
+	($p1x $p1y $z1)
+
+);
+
+blocks          
+(	
+    hex (0 1 2 3 4 5 6 7) (112 135 138) simpleGrading (1 1 1)	
+);
+
+edges           
+(
+	arc	0 3 ($ix $iy $z0)
+	arc	1 2 ($ox $oy $z0)
+	arc	4 7 ($ix $iy $z1)
+	arc	5 6 ($ox $oy $z1)
+);
+
+boundary
+(
+    walls
+    {
+		type wall;
+        faces
+        (
+            (3 0 4 7)                
+            (1 2 6 5)            
+			(4 5 6 7)
+			(0 3 2 1)
+        );
+
+    }
+
+
+	left
+	{
+		type cyclic;
+		neighbourPatch right;
+		faces
+		(
+			(2 3 7 6)
+		);
+	}
+
+	right
+	{
+		type cyclic;
+		neighbourPatch left;
+		faces
+		(
+			(0 1 5 4)
+		);
+	}
+
+
+);
+
+mergePatchPairs 
+(
+);
+
+// ************************************************************************* //

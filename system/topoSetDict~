@@ -1,0 +1,43 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.0.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    {
+        name    magnet1;
+        type    faceZoneSet;
+        action  new;
+        source  boxToFace;
+        sourceInfo
+        {
+            box (0 0.999 0) (1 1.001 0.1);
+        }
+    }
+
+    {
+        name    magnet2;
+        type    faceZoneSet;
+        action  new;
+        source  boxToFace;
+        sourceInfo
+        {
+            box (0.999 0 0) (1.001 1 0.1);
+        }
+    }
+);
+
+// ************************************************************************* //
