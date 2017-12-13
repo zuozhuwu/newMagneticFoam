@@ -3,14 +3,14 @@
 
 	const surfaceVectorField& faceCentres = mesh.Cf();
 
+	const surfaceVectorField& Sf = mesh.Sf();
+
 	scalar theta = 0.0;
 	scalar r = 0.0;
 
 	int nth = 1;     //the nth magnetic
 
-	scalar deltThetaMax = m_W / m_distance / 2;
-
-
+	scalar deltThetaMax = m_W / m_distance / 2;	
 
 	forAll(faceCentres, facei)
 	{
@@ -39,8 +39,7 @@
 					orientationi = vector(-1 * x, -1 * y, 0);
 				else
 					orientationi = vector(x, y, 0);
-
-				const surfaceVectorField& Sf = mesh.Sf();
+				
 
 				Mrf[facei] = Mri*(orientationi & Sf[facei]);
 			}
