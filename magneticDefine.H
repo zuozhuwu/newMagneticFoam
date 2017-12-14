@@ -1,16 +1,25 @@
 	
 	Info<<"Genarating Mr"<<endl;
 
+	scalar subMotorAngle =  2 * pi/m_num;
+
+	scalar m_theta_m = subMotorAngle/m_magnetic;    //delta theta between two magnetics
+
 	const surfaceVectorField& faceCentres = mesh.Cf();
 
 	const surfaceVectorField& Sf = mesh.Sf();
 
 	scalar theta = 0.0;
+
 	scalar r = 0.0;
 
 	int nth = 1;     //the nth magnetic
 
-	scalar deltThetaMax = m_W / m_distance / 2;	
+	scalar deltThetaMax = m_W / m_distance_outter / 2;	
+
+	scalar rotatingAngle = 0.0;       //rotating angle 
+
+
 
 	forAll(faceCentres, facei)
 	{
@@ -24,13 +33,20 @@
 			theta = std::atan(y/x);
 
 
-			nth = int(theta / m_theta);
+			rotatingAngle -= int(rotatingAngle/subMotorAngle) * subMotorAngle;			
+			
+			theta -= rotatingAngle;
+
+			theta  = (theta < 0) ? (theta + subMotorAngle) : theta;
+
+
+			nth = int(theta / m_theta_m);
 
 			r = std::sqrt(x*x + y*y);			
 
 			if(
-			   r >= m_distance && r <= m_distance + m_H && 
-			   abs(theta - (0.5 + nth) * m_theta) <= deltThetaMax
+			   r >= m_distance_outter && r <= m_distance_outter + m_H && 
+			   abs(theta - (startAngle_m + nth) * m_theta_m) <= deltThetaMax
 			  )
 			{
 				vector orientationi;
