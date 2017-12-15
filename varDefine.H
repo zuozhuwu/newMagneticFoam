@@ -1,5 +1,7 @@
 #define pi 3.1415926
 
+scalar m_poles = 64;    //number of poles
+
 scalar m_num = 8;      //number of  sub motors
 
 scalar m_magnetic = 8;   //number of magnetics in a sub motor 
@@ -16,11 +18,13 @@ scalar m_distance_outter = 181e-3;   //the distance from magnetic to origin(0 0 
 
 scalar m_distance_inner = 151e-3;   //the stator back iron inner radius 
 
+scalar m_turns = 32;
+
 scalar m_z0 = 0;        //magnetic z axis position
 
 scalar m_z1 = m_L;
 
-scalar Mri = 860000;       //Mr of magnetic
+scalar Mri = 1060000;       //Mr of magnetic
 
 scalar Muri = 1000;       //Mur for ferriteDefine
 
@@ -30,7 +34,7 @@ scalar airGap = 1e-3;
 
 scalar thickTT = 1e-3;        //the thickness of tooth tip
 
-scalar deptSlot = 23e-3;         //slot depth
+scalar deptSlot = 25e-3;         //slot depth
 
 scalar slotOpening = 5e-3;       //slot opening
 
@@ -39,3 +43,49 @@ scalar slotBottomWidth = 6.87e-3;  //slot bottom width
 scalar startAngle_m = 0.5;    //the angle of axis of first magnet devided by m_theta_m (delta theta between two magnetics)
 
 scalar startAngle_c = 0;    //the angle of axis of first coil devided by m_theta_c (delta theta between two coils)
+
+
+/////////////////////////////////////////////////////
+	
+Info<<"Genarating Mr"<<endl;
+
+scalar subMotorAngle =  2 * pi/m_num;
+
+scalar m_theta_m = subMotorAngle/m_magnetic;    //delta theta between two magnetics
+
+const surfaceVectorField& faceCentres = mesh.Cf();
+
+const surfaceVectorField& Sf = mesh.Sf();
+
+scalar theta = 0.0;
+
+scalar r = 0.0;
+
+int nth = 1;     //the nth magnetic
+
+scalar deltThetaMax = m_W / m_distance_outter / 2;	
+
+scalar theta_m = 0;       //rotating angle 
+
+scalar theta_e = 0;  
+
+scalar I = 0.0;
+
+scalar Iu = 0.0;
+
+scalar Iv = 0.0;
+
+scalar Iw = 0.0;
+
+scalar coeff_I2Mr = m_turns * Muri / deptSlot;
+
+
+Info<<"Genarating Murf"<<nl;
+
+scalar m_theta_c = subMotorAngle/m_coil;        //delta theta between two coils
+
+scalar distanceSlotBottom = m_distance_outter - airGap - thickTT - deptSlot;
+
+scalar angleDeltSlotTopMax = (m_theta_c - slotOpening / (m_distance_outter - airGap) )/2.0;
+
+scalar angleDeltSlotBottomMax = (slotBottomWidth / distanceSlotBottom) / 2.0;
