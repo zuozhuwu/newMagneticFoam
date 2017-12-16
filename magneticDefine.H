@@ -7,6 +7,8 @@ forAll(faceCentres, facei)
 	if(z >= m_z0 && z <= m_z1 )
 	{
 
+        Mrf[facei] = 0;         //reset all value, because when rotating, all value must be reset
+       
 		theta = std::atan(y/x);
 
 
