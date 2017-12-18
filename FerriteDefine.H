@@ -1,7 +1,5 @@
 
 
-
-
 forAll(faceCentres, facei)
 {
 	scalar x = faceCentres[facei].x();

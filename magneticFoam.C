@@ -49,8 +49,6 @@ int main(int argc, char *argv[])
     #include "createTime.H"
     #include "createMesh.H"
 
-    simpleControl simple(mesh);
-
     #include "createFields.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -59,10 +57,7 @@ int main(int argc, char *argv[])
 
     runTime++;
 
-    while (simple.correctNonOrthogonal())
-    {
-        solve(fvm::laplacian(murf, psi) + fvc::div(murf*Mrf));
-    }
+    solve(fvm::laplacian(murf, psi) + fvc::div(murf*Mrf));
 
     psi.write();
 
