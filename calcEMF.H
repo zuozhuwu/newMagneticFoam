@@ -27,17 +27,17 @@ forAll(faceCentres, facei)
 
 		if(r > distanceSlotBottom && r <= m_distance_outter - airGap - thickTT)
 		{
-			vector orientationi;
+			vector orientationi = vector(0, 0, 0);
 
 			scalar mri_Temp = 0.0;
 
 			if(nth == 0 || nth == 3 || nth == 5 || nth == 7 )
 			{
-				orientationi = vector(-1 * x, -1 * y, 0);
+				orientationi = vector(-1 * x / r, -1 * y / r, 0);
 			}
 			else if(nth == 1 || nth == 2 || nth == 4 || nth == 6 || nth == 8)
 			{
-				orientationi = vector(x, y, 0);
+				orientationi = vector(x / r, y / r, 0);
 			}
 
 			if(nth == 0 || nth == 1 || nth == 8)    //phase U

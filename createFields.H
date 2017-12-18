@@ -142,6 +142,7 @@ fcpatch[facei] = vector(x, y, z);
 
 #include "FerriteDefine.H"
 
+#include "calcEMF.H"
 
 
 

@@ -4,9 +4,9 @@ scalar m_poles = 64;    //number of poles
 
 scalar m_num = 8;      //number of  sub motors
 
-scalar m_magnetic = 8;   //number of magnetics in a sub motor 
+uint8_t m_magnetic = 8;   //number of magnetics in a sub motor 
 
-scalar m_coil = 9;      //number of coil in a sub motor
+uint8_t m_coil = 9;      //number of coil in a sub motor
 
 scalar m_L = 58.5e-3;     //the lenght of magnetic
 
@@ -79,9 +79,6 @@ scalar Iw = 0.0;
 
 scalar coeff_I2Mr = m_turns * Muri / deptSlot;
 
-
-Info<<"Genarating Murf"<<nl;
-
 scalar m_theta_c = subMotorAngle/m_coil;        //delta theta between two coils
 
 scalar distanceSlotBottom = m_distance_outter - airGap - thickTT - deptSlot;
@@ -89,3 +86,11 @@ scalar distanceSlotBottom = m_distance_outter - airGap - thickTT - deptSlot;
 scalar angleDeltSlotTopMax = (m_theta_c - slotOpening / (m_distance_outter - airGap) )/2.0;
 
 scalar angleDeltSlotBottomMax = (slotBottomWidth / distanceSlotBottom) / 2.0;
+
+auto inductance_now= new scalar[m_coil];
+
+auto inductance_passed= new scalar[m_coil];    //
+
+scalar delt_mesh_error_max = 1e-4;      //set the mesh error max, used for calc inductance
+
+scalar hysteresis_torque = 5;         //N.m, the torque induced by friction between stator and rator 
