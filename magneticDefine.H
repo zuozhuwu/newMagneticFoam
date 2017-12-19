@@ -1,4 +1,7 @@
 
+scalar omiga_s = omiga * pi / 30;     //change rpm to radius/sec
+
+theta_m = omiga_s * runTime.value();
 
 forAll(faceCentres, facei)
 {

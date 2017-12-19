@@ -6,6 +6,12 @@ Iv = I * std::cos(theta_e - 2.0 * pi/3.0);
 
 Iw = I * std::cos(theta_e + 2.0 * pi/3.0);
 
+Info<<"theta_m: "<<theta_m<<nl;
+
+Info << "theta_e: "<<theta_e<<endl;
+
+Info << "Iu: " <<Iu<<nl;
+
 forAll(faceCentres, facei)
 {
 	scalar x = faceCentres[facei].x();

@@ -52,21 +52,37 @@ int main(int argc, char *argv[])
     #include "createFields.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    fileName file("savedResults");
 
-    Info<< "Calculating the magnetic field potential" << endl;
+    OFstream of(file);
 
-    runTime++;
+    of<<"\"the time\"" << "\"the rms(root-mean-square) current\"" << '\t' << "\"the ratating speed(rpm)\"" << '\t'
+      << "\"the U phase inductance\"" << '\t' << "\"the V phase inductance\"" << '\t'
+      << "\"the W phase inductance\"" << '\t' << "\"the torque\"" << '\t' 
+      << "\"the voltage\"" << nl;
 
-    solve(fvm::laplacian(murf, psi) + fvc::div(murf*Mrf));
+    while (runTime.loop())
+    {
+        
+        #include "magneticDefine.H"
 
-    psi.write();
+        #include "calcEMF.H"
+       
+        Info<< "calculating for time: "<< runTime.value() << endl;
 
-    #include "calcBH.H"
+        solve(fvm::laplacian(murf, psi) + fvc::div(murf*Mrf));
 
-    #include "calcInductance.H"
+        #include "calcBH.H"
+
+        #include "calcInductance.H"
+    
+        #include "calcTorque.H"
+
+        #include "outputCtrl.H"
+    }
 
     Info<< "\nEnd\n" << endl;
-
+    
     return 0;
 }
 

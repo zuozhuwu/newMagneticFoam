@@ -1,3 +1,6 @@
+    
+    #include "varDefine.H"
+
     Info<< "Reading field psi\n" << endl;
     volScalarField psi
     (
@@ -31,6 +34,9 @@
         )
     );
 
+    transportProperties.lookup("I") >> I;
+
+    transportProperties.lookup("omiga") >> omiga;
 
 
    // List<magnet> magnets(transportProperties.lookup("magnets"));
@@ -135,22 +141,7 @@ fcpatch[facei] = vector(x, y, z);
 	}
 */
 
-#include "varDefine.H"
-
-#include "magneticDefine.H"
-
-
 #include "FerriteDefine.H"
-
-#include "calcEMF.H"
-
-
-
-
-
-
-
-
 
 
 

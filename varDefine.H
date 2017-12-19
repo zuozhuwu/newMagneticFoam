@@ -47,8 +47,6 @@ scalar startAngle_c = 0;    //the angle of axis of first coil devided by m_theta
 
 /////////////////////////////////////////////////////
 	
-Info<<"Genarating Mr"<<endl;
-
 scalar subMotorAngle =  2 * pi/m_num;
 
 scalar m_theta_m = subMotorAngle/m_magnetic;    //delta theta between two magnetics
@@ -68,6 +66,10 @@ scalar deltThetaMax = m_W / m_distance_outter / 2;
 scalar theta_m = 0;       //rotating angle 
 
 scalar theta_e = 0;  
+
+scalar omiga = 0;       //the rotating speed, rpm
+
+scalar fluxLinkage_m = 0;   //the Permanent magnets flux linkage
 
 scalar I = 0.0;
 
@@ -90,6 +92,12 @@ scalar angleDeltSlotBottomMax = (slotBottomWidth / distanceSlotBottom) / 2.0;
 auto inductance_now= new scalar[m_coil];
 
 auto inductance_passed= new scalar[m_coil];    //
+
+scalar torque = 0;          //the output torque
+
+scalar voltage = 0;       //the sum of the three phases voltage
+
+scalar resistance = 0.26;   //the phase resistance per sub-motor
 
 scalar delt_mesh_error_max = 1e-4;      //set the mesh error max, used for calc inductance
 

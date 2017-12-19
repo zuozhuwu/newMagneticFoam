@@ -18,7 +18,7 @@
                 << "Creating field H for time "
                 << runTime.timeName() << endl;
 
-            H.write();
+//            H.write();
         }
 
         if (args.optionFound("HdotGradH"))
@@ -58,6 +58,6 @@
            *fvc::reconstruct(murf*fvc::snGrad(psi)*mesh.magSf() + murf*Mrf)
         );
 
-    B.write();
+ //   B.write();
     
    

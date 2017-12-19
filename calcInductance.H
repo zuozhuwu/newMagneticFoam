@@ -9,7 +9,7 @@ if(I == 0)
 else
 {
 
-    if(runTime != 0)   //not the first time
+    if(runTime.value() != 0)   //not the first time
     {
        inductance_passed = inductance_now; 
     }
@@ -33,24 +33,33 @@ else
 
     		nth = int(theta / m_theta_c);
 
-        
-		    vector orientationi = vector(0, 0, 0);
-
-	    	if(nth == 0 || nth == 3 || nth == 5 || nth == 7 )
-    		{	
-                orientationi = vector(-1 * x / r, -1 * y / r, 0);                    
-            }
-    		else if(nth == 1 || nth == 2 || nth == 4 || nth == 6 || nth == 8)
-    		{
-    			orientationi = vector(x / r, y / r, 0);
-    		}
-        
-            if(r > m_distance_outter - airGap - delt_mesh_error_max && r > m_distance_outter - airGap + delt_mesh_error_max )
+            if(abs(r - (m_distance_outter - airGap) ) < delt_mesh_error_max)
             {
             
     			if(abs(theta - (startAngle_c + nth + 0.5) * m_theta_c) <= angleDeltSlotTopMax)      //+0.5 because of rotating
                 {
-                    inductance_now[nth] += (B[facei] & orientationi) * abs(Sf[facei] & orientationi) * m_coil / I;      
+                    vector orientationi = vector(0, 0, 0);
+
+                    if(nth == 0 || nth == 3 || nth == 5 || nth == 7 )
+                    {	
+                        orientationi = vector(-1 * x / r, -1 * y / r, 0);                    
+                    }
+                    else if(nth == 1 || nth == 2 || nth == 4 || nth == 6 || nth == 8)
+                    {
+                        orientationi = vector(x / r, y / r, 0);
+                    }
+
+                    scalar I_phase = 0;
+
+                    if(nth == 8 || nth == 0 || nth == 1)
+                        I_phase = Iu;
+                    else if(nth == 2 || nth == 3 || nth == 4)
+                        I_phase = Iv;
+                    else if(nth == 5 || nth == 6 || nth == 7)
+                        I_phase = Iw;
+
+                    inductance_now[nth] += (B[facei] & orientationi) * abs(Sf[facei] & orientationi) * m_coil / I_phase;      
+
                 }
             
             }
