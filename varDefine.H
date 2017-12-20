@@ -53,6 +53,8 @@ scalar m_theta_m = subMotorAngle/m_magnetic;    //delta theta between two magnet
 
 const surfaceVectorField& faceCentres = mesh.Cf();
 
+const surfaceScalarField& magSf = mesh.magSf();
+
 const surfaceVectorField& Sf = mesh.Sf();
 
 scalar theta = 0.0;
@@ -60,8 +62,6 @@ scalar theta = 0.0;
 scalar r = 0.0;
 
 int nth = 1;     //the nth magnetic
-
-scalar deltThetaMax = m_W / m_distance_outter / 2;	
 
 scalar theta_m = 0;       //rotating angle 
 
@@ -79,9 +79,11 @@ scalar Iv = 0.0;
 
 scalar Iw = 0.0;
 
-scalar coeff_I2Mr = m_turns * Muri / deptSlot;
+scalar coeff_I2Mr = m_turns * Muri / deptSlot * 0.02536;  //0.02536 is the coeff
 
 scalar m_theta_c = subMotorAngle/m_coil;        //delta theta between two coils
+
+scalar deltThetaMax = m_W / m_distance_outter / 2;	
 
 scalar distanceSlotBottom = m_distance_outter - airGap - thickTT - deptSlot;
 
@@ -95,10 +97,10 @@ auto inductance_passed= new scalar[m_coil];    //
 
 scalar torque = 0;          //the output torque
 
-scalar voltage = 0;       //the sum of the three phases voltage
+//scalar voltage = 0;       //the sum of the three phases voltage
 
-scalar resistance = 0.26;   //the phase resistance per sub-motor
+//scalar resistance = 0.26;   //the phase resistance per sub-motor
 
 scalar delt_mesh_error_max = 1e-4;      //set the mesh error max, used for calc inductance
 
-scalar hysteresis_torque = 5;         //N.m, the torque induced by friction between stator and rator 
+//scalar hysteresis_torque = 5;         //N.m, the torque induced by friction between stator and rator 

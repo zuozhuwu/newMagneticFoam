@@ -14,6 +14,12 @@ else
        inductance_passed = inductance_now; 
     }
 
+    //reset inductance_now before calculation
+    for(int8_t i = 0; i < m_coil; i++)
+    {
+        inductance_now[i] = 0;
+    }
+
     forAll(faceCentres, facei)
     {   
 	    scalar x = faceCentres[facei].x();
@@ -33,18 +39,20 @@ else
 
     		nth = int(theta / m_theta_c);
 
-            if(abs(r - (m_distance_outter - airGap) ) < delt_mesh_error_max)
+            if(r - (m_distance_outter - airGap) <      delt_mesh_error_max &&
+               r - (m_distance_outter - airGap) > -1 * delt_mesh_error_max )
             {
             
-    			if(abs(theta - (startAngle_c + nth + 0.5) * m_theta_c) <= angleDeltSlotTopMax)      //+0.5 because of rotating
+    			if(theta - (startAngle_c + nth + 0.5) * m_theta_c <=      angleDeltSlotTopMax &&
+                   theta - (startAngle_c + nth + 0.5) * m_theta_c >= -1 * angleDeltSlotTopMax)      //+0.5 because of rotating
                 {
                     vector orientationi = vector(0, 0, 0);
 
-                    if(nth == 0 || nth == 3 || nth == 5 || nth == 7 )
-                    {	
-                        orientationi = vector(-1 * x / r, -1 * y / r, 0);                    
+                    if(nth == 0 || nth == 3 || nth == 6)
+                    {
+                        orientationi = vector(-1 * x / r, -1 * y / r, 0);
                     }
-                    else if(nth == 1 || nth == 2 || nth == 4 || nth == 6 || nth == 8)
+                    else if(nth == 1 || nth == 2 || nth == 4 || nth == 5 || nth == 7 || nth == 8)
                     {
                         orientationi = vector(x / r, y / r, 0);
                     }
@@ -58,7 +66,10 @@ else
                     else if(nth == 5 || nth == 6 || nth == 7)
                         I_phase = Iw;
 
-                    inductance_now[nth] += (B[facei] & orientationi) * abs(Sf[facei] & orientationi) * m_coil / I_phase;      
+                    inductance_now[nth] += (B[facei] & orientationi) * magSf[facei]* m_coil / I_phase;      
+
+                    //Info<<"(B[facei] & orientationi): "<< (B[facei] & orientationi)<<nl;
+                    //Info<<"magSf[facei]: "<<magSf[facei] <<nl;                    
 
                 }
             

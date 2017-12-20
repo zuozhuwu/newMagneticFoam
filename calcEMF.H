@@ -6,11 +6,11 @@ Iv = I * std::cos(theta_e - 2.0 * pi/3.0);
 
 Iw = I * std::cos(theta_e + 2.0 * pi/3.0);
 
-Info<<"theta_m: "<<theta_m<<nl;
+//Info<<"theta_m: "<<theta_m<<nl;
 
-Info << "theta_e: "<<theta_e<<endl;
+//Info << "theta_e: "<<theta_e<<endl;
 
-Info << "Iu: " <<Iu<<nl;
+//Info << "Iu: " <<Iu<<nl;
 
 forAll(faceCentres, facei)
 {
@@ -37,11 +37,11 @@ forAll(faceCentres, facei)
 
 			scalar mri_Temp = 0.0;
 
-			if(nth == 0 || nth == 3 || nth == 5 || nth == 7 )
+			if(nth == 0 || nth == 3 || nth == 6)
 			{
 				orientationi = vector(-1 * x / r, -1 * y / r, 0);
 			}
-			else if(nth == 1 || nth == 2 || nth == 4 || nth == 6 || nth == 8)
+			else if(nth == 1 || nth == 2 || nth == 4 || nth == 5 || nth == 7 || nth == 8)
 			{
 				orientationi = vector(x / r, y / r, 0);
 			}
@@ -50,19 +50,19 @@ forAll(faceCentres, facei)
 			{
 				mri_Temp = coeff_I2Mr * Iu;
 				
-				Mrf[facei] = mri_Temp*(orientationi & Sf[facei]);
+				Mrf[facei] = mri_Temp*(Sf[facei] & orientationi);
 			}
 			else if(nth == 2 || nth == 3 || nth == 4)    //phase V
 			{
 				mri_Temp = coeff_I2Mr * Iv;
 				
-				Mrf[facei] = mri_Temp*(orientationi & Sf[facei]);
+				Mrf[facei] = mri_Temp*(Sf[facei] & orientationi);
 			}
 			else if(nth == 5 || nth == 6 || nth == 7)    //phase w
 			{
 				mri_Temp = coeff_I2Mr * Iw;
 				
-				Mrf[facei] = mri_Temp*(orientationi & Sf[facei]);
+				Mrf[facei] = mri_Temp*(Sf[facei] & orientationi);
 			}
 
 		}

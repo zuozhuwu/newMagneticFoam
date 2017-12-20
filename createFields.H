@@ -1,6 +1,16 @@
     
     #include "varDefine.H"
 
+    fileName file("savedResults");   //creating a file for output
+
+    OFstream of(file);
+
+    of<<"\"the time\"" << "\"the rms(root-mean-square) current\"" << '\t' << "\"the ratating speed(rpm)\"" << '\t'
+      << "\"the U phase inductance\"" << '\t' << "\"the V phase inductance\"" << '\t'
+      << "\"the W phase inductance\"" << '\t' << "\"the torque\"" << '\t' 
+      << "\"the voltage\"" << nl;
+
+
     Info<< "Reading field psi\n" << endl;
     volScalarField psi
     (
@@ -141,7 +151,31 @@ fcpatch[facei] = vector(x, y, z);
 	}
 */
 
+//initialize inductance_now and inductance_passed
+for(int8_t i = 0; i < m_coil; i++)
+{
+    inductance_now[i] = inductance_passed[i] = 0;
+}
+
+
 #include "FerriteDefine.H"
+
+//calculating for runTime = 0
+
+//#include "magneticDefine.H"
+
+//#include "calcEMF.H"
+
+//solve(fvm::laplacian(murf, psi) + fvc::div(murf*Mrf));
+
+//#include "calcBH.H"
+
+//#include "calcInductance.H"
+
+//#include "calcTorque.H"
+
+//#include "outputCtrl.H"
+
 
 
 

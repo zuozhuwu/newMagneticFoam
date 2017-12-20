@@ -52,23 +52,15 @@ int main(int argc, char *argv[])
     #include "createFields.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-    fileName file("savedResults");
-
-    OFstream of(file);
-
-    of<<"\"the time\"" << "\"the rms(root-mean-square) current\"" << '\t' << "\"the ratating speed(rpm)\"" << '\t'
-      << "\"the U phase inductance\"" << '\t' << "\"the V phase inductance\"" << '\t'
-      << "\"the W phase inductance\"" << '\t' << "\"the torque\"" << '\t' 
-      << "\"the voltage\"" << nl;
-
-    while (runTime.loop())
+    //while (runTime.loop())
+    for (; !runTime.end(); runTime++)
     {
-        
+        Info<<nl<<nl<<"/////////////////////////////////////////////////"<<nl
+            << "calculating for time: "<< runTime.value() << endl;
+
         #include "magneticDefine.H"
 
         #include "calcEMF.H"
-       
-        Info<< "calculating for time: "<< runTime.value() << endl;
 
         solve(fvm::laplacian(murf, psi) + fvc::div(murf*Mrf));
 

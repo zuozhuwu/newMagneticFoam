@@ -28,7 +28,8 @@ forAll(faceCentres, facei)
             
             Mrf[facei] = 0;         //reset all value, because when rotating, all value must be reset
 
-		    if(abs(theta - (startAngle_m + nth) * m_theta_m) <= deltThetaMax)
+		    if(theta - (startAngle_m + nth) * m_theta_m <= deltThetaMax &&
+               theta - (startAngle_m + nth) * m_theta_m >= -1 * deltThetaMax)
             {
                 vector orientationi = vector(0, 0, 0);
 

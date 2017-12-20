@@ -21,12 +21,12 @@ forAll(faceCentres, facei)
 		bool isFe = false;
 		if(r > m_distance_outter - airGap - thickTT && r <= m_distance_outter - airGap)
 		{
-			if(abs(theta - (startAngle_c + nth + 0.5) * m_theta_c) <= angleDeltSlotTopMax)      //+0.5 because of rotating
+			if(fabs(theta - (startAngle_c + nth + 0.5) * m_theta_c) <= angleDeltSlotTopMax)      //+0.5 because of rotating
 				isFe = true;
 		}
 		else if(r > distanceSlotBottom && r <= m_distance_outter - airGap - thickTT)
 		{
-			if(abs(theta - (startAngle_c + nth + 0.5) * m_theta_c) <= angleDeltSlotBottomMax)
+			if(fabs(theta - (startAngle_c + nth + 0.5) * m_theta_c) <= angleDeltSlotBottomMax)
 				isFe = true;
 		}
 
